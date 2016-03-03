@@ -11,7 +11,7 @@ isset($_REQUEST['url'])?$url=strip_tags($_REQUEST['url']):$url="";
 isset($_REQUEST['bookid'])?$bookid=strip_tags($_REQUEST['bookid']):$bookid="";
 
 
-
+echo "Test Hello";
 
 connect($db);
 
