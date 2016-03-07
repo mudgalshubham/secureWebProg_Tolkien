@@ -225,6 +225,7 @@ function addCharacterAndPicturesForm()
 	$side = mysqli_real_escape_string($db, $side);
 	$race = mysqli_real_escape_string($db, $race);
 	
+	echo "cname- ".$cname."\n side- ".$side. "\n race- ".$race;
 	if($stmt = mysqli_prepare($db, "insert into characters set characterid='', name=?, race=?, side=?"))
         {
                  mysqli_stmt_bind_param($stmt, "sss", $cname,$race, $side);
