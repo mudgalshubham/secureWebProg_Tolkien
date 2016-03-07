@@ -186,10 +186,15 @@ function addUsersForm()
 
 function footer()
 {
+	if(isAdmin())
+	{
 	echo "<div align=center><a href=add.php?s=90>Add New User|</a>
  			<a href=add.php?s=92>Show Users List|</a>
  			<a href=add.php?s=93>Update Password</a><br>
  			<a href=add.php?s=95>Logout</a></div>";
+ 	}
+ 	else
+ 		echo "<a href=add.php?s=95>Logout</a></div>";
 }
  			
 
