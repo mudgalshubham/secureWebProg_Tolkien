@@ -40,7 +40,7 @@ else
 }
 
 function addCharacterMenu($s)
-{	global $db, $cname, $side, $race, $cid,$url, ;
+{	global $db, $cname, $side, $race, $cid,$url ;
 	switch($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
