@@ -220,6 +220,7 @@ function addCharacterForm()
 
 function addCharacterAndPicturesForm($db,$cname,$side,$race)
 {
+	connect($db);
 	//global $db,$cname,$side,$race;
 //	echo "s- ".$s;
 	echo "cname- ".$cname;
@@ -267,6 +268,7 @@ function addCharacterAndPicturesForm($db,$cname,$side,$race)
 function addPicture()
 {
 global $db,$cid,$url,$cname;
+connect($db);
 if(is_numeric($cid))
 {
 	$cid = mysqli_real_escape_string($db, $cid);
@@ -303,6 +305,7 @@ else
 function addBookForm()
 {	
 global $db,$cid,$cname,$bookid,$s;
+connect($db);
 if(is_numeric($cid))
 {
 	$cid = mysqli_real_escape_string($db, $cid);
