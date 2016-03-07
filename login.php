@@ -10,8 +10,8 @@ include_once('header.php');
 
 echo "<div align=center><table><tr><td>Login</td></tr>
 		<form action=add.php method=post>
-		<tr><td>Username</td><td><input type=\"text\" name=\"postUser\"/></td></tr>
-		<tr><td>Password</td><td><input type=\"password\" name=\"postPass\"/></td></tr>
+		<tr><td>Username</td><td><input type=\"text\" name=\"postUser\" required/></td></tr>
+		<tr><td>Password</td><td><input type=\"password\" name=\"postPass\" required/></td></tr>
 		<tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
 		</form>
 		</table>

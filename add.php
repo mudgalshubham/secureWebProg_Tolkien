@@ -208,8 +208,8 @@ function addCharacterForm()
 {
 	echo "<div align=center><table><tr><td>Add Character to Books</td></tr>
 		<form action=add.php method=post>
-		<tr><td>Character Name</td><td><input type=\"text\" name=\"cname\"/></td></tr>
-		<tr><td>Race</td><td><input type=\"text\" name=\"race\"/></td></tr>
+		<tr><td>Character Name</td><td><input type=\"text\" name=\"cname\" required/></td></tr>
+		<tr><td>Race</td><td><input type=\"text\" name=\"race\" required/></td></tr>
 		<tr><td>Side</td><td><input type=\"radio\" name=\"side\" value=\"good\"/>Good<input type=\"radio\" name=\"side\" value=\"evil\"/>Evil</td></tr>
 		<tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
 		<tr><td><input type=\"hidden\" name=\"s\" value=\"6\"/></td></tr>
@@ -249,7 +249,7 @@ function addCharacterAndPicturesForm()
 
 	echo "<div align=center><table><tr><td>Add Picture to Character ".$cname." </td></tr>
                 <form action=add.php method=post>
-                <tr><td>Character Picture URL</td><td><input type=\"text\" name=\"url\" size=\"35\"/></td></tr>
+                <tr><td>Character Picture URL</td><td><input type=\"text\" name=\"url\" size=\"35\" required/></td></tr>
                 <tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
                 <tr><td><input type=\"hidden\" name=\"s\" value=\"7\"/></td></tr>
                 <tr><td><input type=\"hidden\" name=\"cid\" value=\"$cid\"/></td></tr>
