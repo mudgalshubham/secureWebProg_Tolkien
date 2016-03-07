@@ -40,12 +40,12 @@ else
 }
 
 function addCharacterMenu($s)
-{	//global $db, $cname, $side, $race, $cid,$url, ;
+{	global $db, $cname, $side, $race, $cid,$url, ;
 	switch($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
 
-		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm($s); break;
+		case 6:	 if(is_numeric($s)) echo $cname; addCharacterAndPicturesForm($s); break;
 
 		case 7:  if(is_numeric($s)) addPicture(); break;
 
