@@ -30,12 +30,12 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']=="yes")
 	addCharacterMenu($s);
 }
 else
-{		if(isset($_SESSION['authenticated']))
+{		if($postUser == null))
 		{	
-			authenticate($db, $postUser, $postPass);
-		}
-		else
 			header("Location:/hw6/login.php");
+		}
+		authenticate($db, $postUser, $postPass);
+		addCharacterMenu($s);
 }
 
 function addCharacterMenu($s)
@@ -377,6 +377,7 @@ else
 
 function authenticate($db,$postUser,$postPass)
 {
+	connect($db);
 	$query="select userid, email, password, salt from users where username=?";
 	if($stmt = mysqli_prepare($db, $query))	
 	{
