@@ -222,6 +222,7 @@ function addCharacterAndPicturesForm($s)
 {
 	global $db,$cname,$side,$race;
 	echo "s- ".$s;
+	echo "cname- ".$cname;
 	$cname = mysqli_real_escape_string($db, $cname);
 	$side = mysqli_real_escape_string($db, $side);
 	$race = mysqli_real_escape_string($db, $race);
