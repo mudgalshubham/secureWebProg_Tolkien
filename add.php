@@ -24,14 +24,18 @@ isset($_REQUEST['newpass'])?$newpass=strip_tags($_REQUEST['newpass']):$newpass="
 isset($_REQUEST['email'])?$email=strip_tags($_REQUEST['email']):$email="";
 
 
-if(!isset($_SESSION['authenticated']) )	
+if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']=="yes")
 {
-	authenticate($db, $postUser, $postPass);
+	//authenticate($db, $postUser, $postPass);
 	addCharacterMenu($s);
 }
 else
-{
-		addCharacterMenu($s);
+{		if(isset($_SESSION['authenticated']))
+		{	
+			authenticate($db, $postUser, $postPass);
+		}
+		else
+			header("Location:/hw6/login.php");
 }
 
 function addCharacterMenu($s)
