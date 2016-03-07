@@ -1,4 +1,11 @@
 <?php
+
+// Name: hw6/hw6-lib.php
+// Author: Shubham Mudgal
+// Purpose: Library file for Tolkien application
+// Version: 1.0
+// Date: 03/06/2016
+
 # This is the library file.
 function connect(&$db){
 	$mycnf = "/etc/hw5-mysql.conf";

@@ -1,5 +1,198 @@
 <?php
-start_session();
+// Name: hw6/add.php
+// Author: Shubham Mudgal
+// Purpose: Adding characters to Tolkien database
+// Version: 1.0
+// Date: 03/06/2016
+
+session_start();
+include_once('header.php');
+include_once('/var/www/html/hw6/hw6-lib.php');
+
+isset($_REQUEST['s'])?$s=strip_tags($_REQUEST['s']):$s="";
+isset($_REQUEST['postUser'])?$postUser=strip_tags($_REQUEST['postUser']):$postUser="";
+isset($_REQUEST['postPass'])?$postPass=strip_tags($_REQUEST['postPass']):$postPass="";
+isset($_REQUEST['bid'])?$bid=strip_tags($_REQUEST['bid']):$bid="";
+isset($_REQUEST['cid'])?$cid=strip_tags($_REQUEST['cid']):$cid="";
+isset($_REQUEST['cname'])?$cname=strip_tags($_REQUEST['cname']):$cname="";
+isset($_REQUEST['side'])?$side=strip_tags($_REQUEST['side']):$side="";
+isset($_REQUEST['race'])?$race=strip_tags($_REQUEST['race']):$race="";
+isset($_REQUEST['url'])?$url=strip_tags($_REQUEST['url']):$url="";
+isset($_REQUEST['bookid'])?$bookid=strip_tags($_REQUEST['bookid']):$bookid="";
+isset($_REQUEST['newuname'])?$newuname=strip_tags($_REQUEST['newuname']):$newuname="";
+isset($_REQUEST['newpass'])?$newpass=strip_tags($_REQUEST['newpass']):$newpass="";
+isset($_REQUEST['email'])?$email=strip_tags($_REQUEST['email']):$email="";
+
+
+if(!isset($_SESSION['authenticated']) )	
+{
+	authenticate($db, $postUser, $postPass);
+}
+else
+{
+		addCharacterMenu($s);
+}
+
+function addCharacterMenu($s)
+{
+	switch($s)
+	{
+		case 5:  if(is_numeric($s)) addCharacterForm(); break;
+
+		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm($db,$cname,$side,$race); break;
+
+		case 7:  if(is_numeric($s)) addPicture($db,$cid,$url,$cname); break;
+
+		case 8:  if(is_numeric($s)) addBookForm($db,$cid,$cname,$bookid,$s); break;		// Here s=8 for re-entry
+
+		case 25: if(is_numeric($s)) addBookForm($db,$cid,$cname,$bookid,$s); break;		// Here s=25 for first time entry
+
+		case 90: if(isAdmin()) 
+					addUsersForm(); 
+				 else
+				 	echo "User not authorized to use this functionality";
+				 break;
+		
+		case 91: if(isAdmin()) 
+					addUsers($db, $newuname, $newpass, $email); 
+				 else
+				 	echo "User not authorized to use this functionality";
+				 break;
+		
+		case 92: if(isAdmin()) 
+					showUsers($db); 
+				 else
+				 	echo "User not authorized to use this functionality";
+				 break;
+		
+		case 93: if(isAdmin()) 
+					updatePasswordForm(); 
+				 else
+				 	echo "User not authorized to use this functionality";
+				 break;
+		
+		case 94: if(isAdmin()) 
+					updatePassword(); 
+				 else
+				 	echo "User not authorized to use this functionality";
+				 break;
+				 
+		case 95: // Logout
+				 session_destroy();
+				 header("Location: /hw6/login.php");
+				 break;
+		
+		default: addCharacterForm(); break;
+	}
+	
+	footer();
+}
+
+function updatePassword($db, $newuname, $newpass)
+{
+	connect($db);
+	$newuname=mysqli_real_escape_string($db,$newuname);
+	$newpass=mysqli_real_escape_string($db,$newpass);
+				
+	$salt = rand(50,10000);
+	$hash_salt=hash('sha256',$salt);
+	$hash_pass=hash('sha256',$newpass.$hash_salt);
+	
+	if($stmt = mysqli_prepare($db, "update users set salt =?, password=? where username=?"))
+    {
+            mysqli_stmt_bind_param($stmt, "sss", $hash_salt ,$hash_pass, $newuname);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            echo "Password updated for user" . $newuname;
+  	}
+  	else
+  		echo "Error in modification of password!";
+  		
+}
+
+function updatePasswordForm()
+{
+	echo "<div align=center><table><tr><td>Update User's Password</td></tr>
+		<form action=add.php method=post>
+		<tr><td>Username</td><td><input type=\"text\" name=\"newuname\" required/></td></tr>
+		<tr><td>New Password</td><td><input type=\"password\" name=\"newpass\" required/></td></tr>
+		<tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
+		<tr><td><input type=\"hidden\" name=\"s\" value=\"94\"/></td></tr>
+		</form>
+		</table>
+		</div> ";
+}
+
+function showUsers($db)
+{
+	connect($db);
+	if($stmt = mysqli_prepare($db, "select username from users"))
+        {
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_bind_result($stmt, $uname);
+                while(mysqli_stmt_fetch($stmt))
+				{
+					$uname = htmlspecialchars($uname);
+                	echo "<tr><td>$uname<br></td></tr>";
+				}
+				mysqli_stmt_close($stmt);
+        }
+}
+
+function addUsers($db, $newuname, $newpass, $email)
+{
+	connect($db);
+	$newuname=mysqli_real_escape_string($db,$newuname);
+	$newpass=mysqli_real_escape_string($db,$newpass);
+	$email=mysqli_real_escape_string($db,$email);
+				
+	$salt = rand(50,10000);
+	$hash_salt=hash('sha256',$salt);
+	$hash_pass=hash('sha256',$newpass.$hash_salt);
+	
+	if($stmt = mysqli_prepare($db, "insert into users set userid='', username=?, password=?, email=?, salt=?"))
+    {
+            mysqli_stmt_bind_param($stmt, "ssss", $newuname,$hash_pass, $email, $hash_salt);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            echo "Added new user" . $newuname;
+  	}
+  	else
+  		echo "Error in insertion!";
+}       
+
+function addUsersForm()
+{
+	echo "<div align=center><table><tr><td>Add New User</td></tr>
+		<form action=add.php method=post>
+		<tr><td>Username</td><td><input type=\"text\" name=\"newuname\" required/></td></tr>
+		<tr><td>Password</td><td><input type=\"password\" name=\"newpass\" required/></td></tr>
+		<tr><td>Email ID</td><td><input type=\"email\" name=\"email\" required/></td></tr>
+		<tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
+		<tr><td><input type=\"hidden\" name=\"s\" value=\"91\"/></td></tr>
+		</form>
+		</table>
+		</div> ";
+}
+
+function footer()
+{
+	echo "<div align=center><a href=add.php?s=90>Add New User|</a>
+ 			<a href=add.php?s=92>Show Users List|</a>
+ 			<a href=add.php?s=93>Update Password</a><br>
+ 			<a href=add.php?s=95>Logout</a></div>";
+}
+ 			
+
+function isAdmin()
+{
+	if ( isset($_SESSION['userid']) && $_SESSION['userid'] == 1)
+	{
+		return true;
+	}
+	else
+		return false;
+}
 
 
 function addCharacterForm()
@@ -135,7 +328,7 @@ if(is_numeric($cid))
 		     
 		if(sizeof($bookIdArray) ==0)
 		{	
-			header('Location: index.php?s=3&cid='.$cid);
+			header('Location: hw6/index.php?s=3&cid='.$cid);
 	//		appears($db,$cid);
 		}
 		 
@@ -175,4 +368,39 @@ if(is_numeric($cid))
 else 
 	echo "Not a valid Character ID";
 }
+
+
+function authenticate($db,$postUser,$postPass)
+{
+	$query="select userid, email, password, salt from users where username=?";
+	if($stmt = mysqli_prepare($db, $query))	
+	{
+		mysqli_stmt_bind_param($stmt, "s", $postUser);	
+		mysqli_stmt_execute($stmt);	
+  		mysqli_stmt_bind_result($stmt, $userid, $email, $password, $salt);
+  		while(mysqli_stmt_fetch($stmt))	
+  		{
+  			$userid=$userid;
+  			$password=$password;
+  			$salt=$salt;
+  			$email=$email;
+  		}
+  		mysqli_stmt_close($stmt);
+  		$epass=hash('sha256', $postPass.$salt);
+  		if($epass == $password)	
+  		{	
+  			$_SESSION['userid']=$userid;
+  			$_SESSION['email']=$email;
+  			$_SESSION['authenticated']="yes";
+  			$_SESSION['ip']=$_SERVER['REMOTE_ADDR'];
+  		}	
+  		else	
+  		{	
+  			echo "Failed to Login";
+  			header("Location:/hw6/login.php");
+  			exit;
+  		}
+  	}
+}
+
 ?>
