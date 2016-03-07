@@ -5,7 +5,7 @@
 // Purpose: File to show login form
 // Version: 1.0
 // Date: 03/06/2016
-
+session_start();
 include_once('header.php');
 
 echo "<div align=center><table><tr><td>Login</td></tr>
