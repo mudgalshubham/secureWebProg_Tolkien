@@ -220,9 +220,9 @@ function addCharacterForm()
 
 function addCharacterAndPicturesForm()
 {
-	connect($db);
+	
 	global $db,$cname,$side,$race;
-
+	connect($db);
 	$cname = mysqli_real_escape_string($db, $cname);
 	$side = mysqli_real_escape_string($db, $side);
 	$race = mysqli_real_escape_string($db, $race);
