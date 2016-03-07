@@ -27,6 +27,7 @@ isset($_REQUEST['email'])?$email=strip_tags($_REQUEST['email']):$email="";
 if(!isset($_SESSION['authenticated']) )	
 {
 	authenticate($db, $postUser, $postPass);
+	addCharacterMenu($s);
 }
 else
 {
@@ -34,7 +35,7 @@ else
 }
 
 function addCharacterMenu($s)
-{
+{	//global $db, $cname, $side, $race, ;
 	switch($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
