@@ -45,7 +45,7 @@ function addCharacterMenu($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
 
-		case 6:	 if(is_numeric($s)) echo $cname; addCharacterAndPicturesForm($s); break;
+		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm($db,$cname,$side,$race); break;
 
 		case 7:  if(is_numeric($s)) addPicture(); break;
 
@@ -218,10 +218,10 @@ function addCharacterForm()
 		</div> ";
 }
 
-function addCharacterAndPicturesForm($s)
+function addCharacterAndPicturesForm($db,$cname,$side,$race)
 {
-	global $db,$cname,$side,$race;
-	echo "s- ".$s;
+	//global $db,$cname,$side,$race;
+//	echo "s- ".$s;
 	echo "cname- ".$cname;
 	$cname = mysqli_real_escape_string($db, $cname);
 	$side = mysqli_real_escape_string($db, $side);
