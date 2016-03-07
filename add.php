@@ -40,18 +40,18 @@ else
 }
 
 function addCharacterMenu($s)
-{	//global $db, $cname, $side, $race, ;
+{	//global $db, $cname, $side, $race, $cid,$url, ;
 	switch($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
 
-		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm($db,$cname,$side,$race); break;
+		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm(); break;
 
-		case 7:  if(is_numeric($s)) addPicture($db,$cid,$url,$cname); break;
+		case 7:  if(is_numeric($s)) addPicture(); break;
 
-		case 8:  if(is_numeric($s)) addBookForm($db,$cid,$cname,$bookid,$s); break;		// Here s=8 for re-entry
+		case 8:  if(is_numeric($s)) addBookForm(); break;		// Here s=8 for re-entry
 
-		case 25: if(is_numeric($s)) addBookForm($db,$cid,$cname,$bookid,$s); break;		// Here s=25 for first time entry
+		case 25: if(is_numeric($s)) addBookForm(); break;		// Here s=25 for first time entry
 
 		case 90: if(isAdmin()) 
 					addUsersForm(); 
@@ -60,13 +60,13 @@ function addCharacterMenu($s)
 				 break;
 		
 		case 91: if(isAdmin()) 
-					addUsers($db, $newuname, $newpass, $email); 
+					addUsers(); 
 				 else
 				 	echo "User not authorized to use this functionality";
 				 break;
 		
 		case 92: if(isAdmin()) 
-					showUsers($db); 
+					showUsers(); 
 				 else
 				 	echo "User not authorized to use this functionality";
 				 break;
@@ -94,8 +94,9 @@ function addCharacterMenu($s)
 	footer();
 }
 
-function updatePassword($db, $newuname, $newpass)
+function updatePassword()
 {
+	global $db, $newuname, $newpass;
 	connect($db);
 	$newuname=mysqli_real_escape_string($db,$newuname);
 	$newpass=mysqli_real_escape_string($db,$newpass);
@@ -129,8 +130,9 @@ function updatePasswordForm()
 		</div> ";
 }
 
-function showUsers($db)
-{
+function showUsers()
+{	global $db;
+
 	connect($db);
 	if($stmt = mysqli_prepare($db, "select username from users"))
         {
@@ -145,8 +147,9 @@ function showUsers($db)
         }
 }
 
-function addUsers($db, $newuname, $newpass, $email)
+function addUsers()
 {
+	global $db, $newuname, $newpass, $email;
 	connect($db);
 	$newuname=mysqli_real_escape_string($db,$newuname);
 	$newpass=mysqli_real_escape_string($db,$newpass);
@@ -215,8 +218,9 @@ function addCharacterForm()
 		</div> ";
 }
 
-function addCharacterAndPicturesForm($db,$cname,$side,$race)
+function addCharacterAndPicturesForm()
 {
+	global $db,$cname,$side,$race;
 	$cname = mysqli_real_escape_string($db, $cname);
 	$side = mysqli_real_escape_string($db, $side);
 	$race = mysqli_real_escape_string($db, $race);
@@ -257,8 +261,9 @@ function addCharacterAndPicturesForm($db,$cname,$side,$race)
 
 }
 
-function addPicture($db,$cid,$url,$cname)
+function addPicture()
 {
+global $db,$cid,$url,$cname;
 if(is_numeric($cid))
 {
 	$cid = mysqli_real_escape_string($db, $cid);
@@ -283,9 +288,6 @@ if(is_numeric($cid))
                 </table>
                 </div> ";
 
-
-//		addBookForm($db,$cid,$cname,$bookid,$s);
-
 	}
         else
                 echo "Error in query";
@@ -295,8 +297,9 @@ else
 	echo "Not a valid Character ID";
 }
 
-function addBookForm($db,$cid,$cname,$bookid,$s)
+function addBookForm()
 {	
+global $db,$cid,$cname,$bookid,$s;
 if(is_numeric($cid))
 {
 	$cid = mysqli_real_escape_string($db, $cid);
@@ -376,8 +379,9 @@ else
 }
 
 
-function authenticate($db,$postUser,$postPass)
+function authenticate()
 {
+	global $db,$postUser,$postPass;
 	connect($db);
 	$query="select userid, email, password, salt from users where username=?";
 	if($stmt = mysqli_prepare($db, $query))	
