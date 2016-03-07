@@ -30,7 +30,8 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']=="yes")
 	addCharacterMenu($s);
 }
 else
-{		if($postUser == null))
+{		
+	if($postUser == null)
 		{	
 			header("Location:/hw6/login.php");
 		}
