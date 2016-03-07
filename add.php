@@ -204,7 +204,7 @@ function isAdmin()
 function addCharacterForm()
 {
 	echo "<div align=center><table><tr><td>Add Character to Books</td></tr>
-		<form action=index.php method=post>
+		<form action=add.php method=post>
 		<tr><td>Character Name</td><td><input type=\"text\" name=\"cname\"/></td></tr>
 		<tr><td>Race</td><td><input type=\"text\" name=\"race\"/></td></tr>
 		<tr><td>Side</td><td><input type=\"radio\" name=\"side\" value=\"good\"/>Good<input type=\"radio\" name=\"side\" value=\"evil\"/>Evil</td></tr>
@@ -242,7 +242,7 @@ function addCharacterAndPicturesForm($db,$cname,$side,$race)
        
 
 	echo "<div align=center><table><tr><td>Add Picture to Character ".$cname." </td></tr>
-                <form action=index.php method=post>
+                <form action=add.php method=post>
                 <tr><td>Character Picture URL</td><td><input type=\"text\" name=\"url\" size=\"35\"/></td></tr>
                 <tr><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr>
                 <tr><td><input type=\"hidden\" name=\"s\" value=\"7\"/></td></tr>
@@ -274,7 +274,7 @@ if(is_numeric($cid))
 		$s = "";
 		
 		echo "<div align=center><table><tr><td>Added Picture for ".$cname." </td></tr>
-                <form action=index.php method=post>
+                <form action=add.php method=post>
                 <tr><td><input type=\"submit\" name=\"submit\" value=\"Add Character to Books\"/></td></tr>
                 <tr><td><input type=\"hidden\" name=\"s\" value=\"25\"/></td></tr>
                 <tr><td><input type=\"hidden\" name=\"cid\" value=\"$cid\"/></td></tr>
@@ -345,7 +345,7 @@ if(is_numeric($cid))
 			echo "<tr><td>Added ".$cname." to Book ".$bid." </td></tr>";
 		     }
 			echo " <tr><td>Add ".$cname." to Books </td></tr>
-                         <form action=index.php method=post>
+                         <form action=add.php method=post>
                          <tr><td>Select Book</td>
 			 <td><select name=\"bookid\">";
 				for($i=0; $i < sizeof($bookIdArray); $i++)
