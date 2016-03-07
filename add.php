@@ -45,7 +45,7 @@ function addCharacterMenu($s)
 	{
 		case 5:  if(is_numeric($s)) addCharacterForm(); break;
 
-		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm($db,$cname,$side,$race); break;
+		case 6:	 if(is_numeric($s)) addCharacterAndPicturesForm(); break;
 
 		case 7:  if(is_numeric($s)) addPicture(); break;
 
@@ -218,17 +218,15 @@ function addCharacterForm()
 		</div> ";
 }
 
-function addCharacterAndPicturesForm($db,$cname,$side,$race)
+function addCharacterAndPicturesForm()
 {
 	connect($db);
-	//global $db,$cname,$side,$race;
-//	echo "s- ".$s;
-	echo "cname- ".$cname;
+	global $db,$cname,$side,$race;
+
 	$cname = mysqli_real_escape_string($db, $cname);
 	$side = mysqli_real_escape_string($db, $side);
 	$race = mysqli_real_escape_string($db, $race);
 	
-	echo "cname- ".$cname."\n side- ".$side. "\n race- ".$race;
 	if($stmt = mysqli_prepare($db, "insert into characters set characterid='', name=?, race=?, side=?"))
         {
                  mysqli_stmt_bind_param($stmt, "sss", $cname,$race, $side);
