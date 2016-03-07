@@ -110,7 +110,7 @@ function updatePassword()
             mysqli_stmt_bind_param($stmt, "sss", $hash_salt ,$hash_pass, $newuname);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
-            echo "Password updated for user" . $newuname;
+            echo "Password updated for user " . $newuname;
   	}
   	else
   		echo "Error in modification of password!";
@@ -164,7 +164,7 @@ function addUsers()
             mysqli_stmt_bind_param($stmt, "ssss", $newuname,$hash_pass, $email, $hash_salt);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
-            echo "Added new user" . $newuname;
+            echo "Added new user " . $newuname;
   	}
   	else
   		echo "Error in insertion!";
