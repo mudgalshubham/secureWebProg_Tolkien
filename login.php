@@ -5,9 +5,10 @@
 // Purpose: File to show login form
 // Version: 1.0
 // Date: 03/06/2016
+
 session_start();
 include_once('header.php');
-if(!isset($_SESSION['authenticated']))
+if(!isset($_SESSION['authenticated']))							//Shows login form only if session is not authenticated(not already logged in)
 {
 	echo "<div align=center><table><tr><td>Login</td></tr>
 		<form action=add.php method=post>
@@ -19,7 +20,7 @@ if(!isset($_SESSION['authenticated']))
 		</div> ";
 }
 else 
-	header("Location:/hw6/add.php");		
+	header("Location:/hw6/add.php");							// If user is already is already logged in then redirects to the add character page
 		
 ?>
 		
