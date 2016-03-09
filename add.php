@@ -23,7 +23,7 @@ isset($_REQUEST['newuname'])?$newuname=strip_tags($_REQUEST['newuname']):$newuna
 isset($_REQUEST['newpass'])?$newpass=strip_tags($_REQUEST['newpass']):$newpass="";
 isset($_REQUEST['email'])?$email=strip_tags($_REQUEST['email']):$email="";
 
-
+connect($db);
 if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']=="yes")
 {
 	//authenticate($db, $postUser, $postPass);
