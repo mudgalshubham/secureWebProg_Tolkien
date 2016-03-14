@@ -98,23 +98,40 @@ function updatePassword()
 {
 	global $db, $newuname, $newpass;
 	connect($db);
-	$newuname=mysqli_real_escape_string($db,$newuname);
-	$newpass=mysqli_real_escape_string($db,$newpass);
-				
-	$salt = rand(50,10000);
-	$hash_salt=hash('sha256',$salt);
-	$hash_pass=hash('sha256',$newpass.$hash_salt);
 	
-	if($stmt = mysqli_prepare($db, "update users set salt =?, password=? where username=?"))
-    {
+	if($stmt = mysqli_prepare($db, "select userid from users where username=?"))
+	{
+		mysqli_stmt_bind_param($stmt, "s", $newuname);
+		mysqli_stmt_execute($stmt);
+		mysqli_stmt_bind_result($stmt, $userId);
+		while(mysqli_stmt_fetch($stmt))
+		{
+			$userId =htmlspecialchars($userId);
+		}
+		mysqli_stmt_close($stmt);
+	}
+	
+	if(!$userId == null)
+	{	
+		$newuname=mysqli_real_escape_string($db,$newuname);
+		$newpass=mysqli_real_escape_string($db,$newpass);
+				
+		$salt = rand(50,10000);
+		$hash_salt=hash('sha256',$salt);
+		$hash_pass=hash('sha256',$newpass.$hash_salt);
+		
+		if($stmt = mysqli_prepare($db, "update users set salt =?, password=? where username=?"))
+   		{
             mysqli_stmt_bind_param($stmt, "sss", $hash_salt ,$hash_pass, $newuname);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
             echo "Password updated for user " . $newuname;
+  		}
+  		else
+  			echo "Error in modification of password!";
   	}
-  	else
-  		echo "Error in modification of password!";
-  		
+  	else 
+  		echo "Invalid Data";
 }
 
 function updatePasswordForm()
